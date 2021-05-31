@@ -76,14 +76,6 @@ right2.shapeColor="white"
 goalpostplayer1.shapeColor="black"
 goalpostplayer2.shapeColor="black"
 
-player2.debug=true;
-player1.debug=true;
-
-footballspr.debug=true;
-
-
-
-
 }
 
 function draw(){
@@ -110,11 +102,76 @@ text("use WASD keys",320,100)
 if(keyDown("space")){
 
     ballMovement();
-
     gameState="play"
     
-   
 }
+
+if(footballspr.isTouching(goalpostplayer1) || footballspr.isTouching(goalpostplayer2)){
+
+    gameState="stop"
+
+}
+
+if(footballspr.y>600 || footballspr.y<0){
+    footballspr.x=250
+    footballspr.y=300
+}
+
+if(gameState=="stop"){
+
+    if(footballspr.isTouching(goalpostplayer1)){
+        scoreplayer2=scoreplayer2 + 1
+    }
+
+    if(footballspr.isTouching(goalpostplayer2)){
+        scoreplayer1=scoreplayer1 + 1
+    }
+    
+    fill("black")
+    textSize(15);
+    text("press space to serve again",150,235)
+
+        footballspr.x=250
+        footballspr.y=300
+
+        footballspr.velocityX=0
+        footballspr.velocityY=0
+}
+
+if(scoreplayer1 == 5){
+    gameState="p1w"
+}
+if(scoreplayer2 == 5){
+    gameState="p2w"
+}
+
+if(gameState == "p1w"){
+    
+    fill("red")
+    textSize(15)
+    text("Player 1 won refresh the page to restart",150,230)
+
+    footballspr.x=250
+    footballspr.y=300
+
+    footballspr.velocityX=0
+    footballspr.velocityY=0
+}
+
+if(gameState == "p2w"){
+    
+    fill("red")
+    textSize(15)
+    text("Player 2 won refresh the page to restart",150,235)
+
+    footballspr.x=250
+    footballspr.y=300
+
+    footballspr.velocityX=0
+    footballspr.velocityY=0
+}
+
+
 
 
 footballspr.bounceOff(player1);
@@ -182,6 +239,7 @@ drawSprites();
 
 }
 
+
 function Player1Movement(){
 
 
@@ -233,3 +291,4 @@ function ballMovement(){
     footballspr.velocityX=3
     footballspr.velocityY=4
 }
+
